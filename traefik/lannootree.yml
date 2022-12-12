@@ -1,0 +1,49 @@
+http:
+  routers:
+    lannootree_router:
+      entryPoints:
+        - websecure
+      rule: Host(`lannootree.devbitapp.be`)
+      service: lannootree_service
+      tls:
+        certResolver: production
+
+    whoami_lannootree_router:
+      entryPoints:
+        - websecure
+      rule: Host(`whoami.lannootree.devbitapp.be`)
+      service: lannootree_service
+      tls:
+        certResolver: production
+
+    traefik_lannootree_router:
+      entryPoints:
+        - websecure
+      rule: Host(`traefik.lannootree.devbitapp.be`)
+      service: lannootree_service
+      tls:
+        certResolver: production
+
+    nodered_lannootree_router:
+      entryPoints:
+        - websecure
+      rule: Host(`nodered.lannootree.devbitapp.be`)
+      service: lannootree_service
+      tls:
+        certResolver: production
+
+    auth_lannootree_router:
+      entryPoints:
+        - websecure
+      rule: Host(`auth.lannootree.devbitapp.be`)
+      service: lannootree_service
+      tls:
+        certResolver: production
+
+
+  services:
+    lannootree_service:
+      loadBalancer:
+        servers:
+          - url: http://lannootree-traefik:80
+
