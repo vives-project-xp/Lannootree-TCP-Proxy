@@ -1,0 +1,14 @@
+http:
+  routers:
+    httpd_router:
+      entryPoints:
+        - websecure
+      rule: Host(`httpd.lannootree.devbitapp.be`)
+      service: httpd-test
+
+  services:
+    httpd-test:
+      loadBalancer:
+        servers:
+          - url: http://10.20.31.2:1234
+

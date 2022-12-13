@@ -40,10 +40,23 @@ http:
       tls:
         certResolver: production
 
+    whoami_router:
+      entryPoints:
+        - websecure
+      rule: Host(`whoami.vps.arnos.be`)
+      service: whoami_service
+      tls:
+        certResolver: production
+
 
   services:
     lannootree_service:
       loadBalancer:
         servers:
           - url: http://lannootree-traefik:80
+
+    whoami_service:
+      loadBalancer:
+        servers:
+          - url: http://whoami:80
 

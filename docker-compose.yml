@@ -1,8 +1,11 @@
 version: "3"
 services:  
   traefik:
-    image: "traefik:v2.9"
+    build:
+      context: ./build
     restart: always
+    cap_add:
+      - NET_ADMIN
     environment:
       - TZ=Europe/Brussels
     ports:
@@ -13,6 +16,7 @@ services:
       - "./traefik:/etc/traefik"
     networks:
       - traefik
+      - wireguard-isolated_isolated-vpn
 
   whoami:
     image: "traefik/whoami"
@@ -23,3 +27,5 @@ services:
 networks:
   traefik:
     name: traefik
+  wireguard-isolated_isolated-vpn:
+    external: true
