@@ -8,26 +8,10 @@ http:
       tls:
         certResolver: production
 
-    whoami_lannootree_router:
-      entryPoints:
-        - websecure
-      rule: Host(`whoami.lannootree.devbitapp.be`)
-      service: lannootree_service
-      tls:
-        certResolver: production
-
     traefik_lannootree_router:
       entryPoints:
         - websecure
       rule: Host(`traefik.lannootree.devbitapp.be`)
-      service: lannootree_service
-      tls:
-        certResolver: production
-
-    nodered_lannootree_router:
-      entryPoints:
-        - websecure
-      rule: Host(`nodered.lannootree.devbitapp.be`)
       service: lannootree_service
       tls:
         certResolver: production
