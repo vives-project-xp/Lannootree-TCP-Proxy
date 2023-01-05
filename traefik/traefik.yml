@@ -69,8 +69,8 @@ certificatesResolvers:
 #       minVersion: VersionTLS12
 
 providers:
-  # docker:
-  #   exposedByDefault: false  # Default is true
+  docker:
+    exposedByDefault: false  # Default is true
   file:
     # watch for dynamic configuration changes
     directory: /etc/traefik

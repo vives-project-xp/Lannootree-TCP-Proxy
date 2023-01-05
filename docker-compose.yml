@@ -11,9 +11,18 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      # - "8080:8080"
+      - "8080:8080"
+    labels:
+      - traefik.docker.network=traefik
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.traefik-dashboard.rule=Host(`traefik.dust.arnos.be`)'
+      - 'traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080'
+      - 'traefik.http.routers.traefik-dashboard.entrypoints=websecure'
+      - 'traefik.http.routers.traefik-dashboard.tls.certresolver=production'
+      - 'traefik.http.routers.traefik-dashboard.middlewares=authelia@docker'
     volumes:
       - "./traefik:/etc/traefik"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
       - traefik
       - wireguard-isolated_isolated-vpn
@@ -21,6 +30,24 @@ services:
   whoami:
     image: "traefik/whoami"
     restart: always
+    networks:
+      - traefik
+  
+  authelia:
+    image: authelia/authelia
+    restart: always
+    user: "1001:1001"
+    volumes:
+      - ./authelia/config:/config
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.authelia.rule=Host(`auth.vps.arnos.be`)'
+      - 'traefik.http.services.authelia.loadbalancer.server.port=9091'
+      - 'traefik.http.routers.authelia.entryPoints=websecure'
+      - 'traefik.http.routers.authelia.tls.certresolver=production'
+      - 'traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/verify?rd=https%3A%2F%2Fauth.vps.arnos.be%2F'
+      - 'traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true'
+      - 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'
     networks:
       - traefik
 

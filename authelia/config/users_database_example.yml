@@ -1,0 +1,9 @@
+users:
+    lannootree:
+        password: 
+        displayname: Lannoo Tree
+        email: lannootree@lannootree.be
+        groups:
+            - admins
+            - dev
+#Add as many users that you need
